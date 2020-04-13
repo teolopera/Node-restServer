@@ -16,8 +16,8 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-/* IMPORTACION DE RUTAS */
-app.use( require('./routes/user') );
+/* CONFIGURACION GLOBAL DE RUTAS */
+app.use( require('./routes/index') );
 
 /* CONEXION A LA BASE DE DATOS */
 mongoose.connect(process.env.URLDB , {
@@ -34,3 +34,4 @@ mongoose.connect(process.env.URLDB , {
 app.listen(process.env.PORT, () => {
   console.log("Escuchando en el puerto", process.env.PORT);
 });
+

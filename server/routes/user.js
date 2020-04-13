@@ -10,10 +10,21 @@ const _ = require("underscore");
 /* IMPORTAMOS LOS MODELS */
 const User = require("../models/user");
 
+/* IMPORTAMOS EL MIDDLEWARE AUTENTICACION */
+const {verificaToken, verificaAdminRol} = require('../middlewares/autenticacion');
+
 const app = express();
 
 // Cambiamos el send por el json por que vamos a hacer una aplicacion REST
-app.get("/user", (req, res) => {
+/* USAMOS EL MIDDLEWARE PARA VERIFICAR EL TOKEN */
+app.get("/user", verificaToken ,(req, res) => {
+
+  /* REQ.USUARIO TIENE TODA LA INFORMACION DEL USUARIO 
+  return res.json({
+    usuario: req.usuario,
+    nombre: req.usuario.nombre,
+    email: req.usuario.email
+  }) */
 
   // Parametros opcionales -> ?desde=10 desde donde queremos cargar los registros
   let desde = req.query.desde || 0;
@@ -48,7 +59,8 @@ app.get("/user", (req, res) => {
   // res.json("Get Usuario");
 });
 
-app.post("/user", (req, res) => {
+/* ARREGLO DE MIDDLEWARES -> ENTRE LLAVES POR QUE SON VARIOS */
+app.post("/user", [verificaToken, verificaAdminRol], (req, res) => {
   let body = req.body;
 
   /* CREAMOS UN OBJETO DE TIPO USER (MODEL) */
@@ -79,7 +91,7 @@ app.post("/user", (req, res) => {
 });
 
 /* Aqui obtendremos un id para poder actualizar el parametro :id */
-app.put("/user/:id", (req, res) => {
+app.put("/user/:id", [verificaToken, verificaAdminRol], (req, res) => {
   /* Para poder obtener ese parametro :id */
   let id = req.params.id;
 
@@ -107,7 +119,7 @@ app.put("/user/:id", (req, res) => {
   );
 });
 
-app.delete("/user/:id", (req, res) => {
+app.delete("/user/:id", [verificaToken, verificaAdminRol], (req, res) => {
   
   let id = req.params.id;
 
