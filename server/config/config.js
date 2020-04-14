@@ -26,6 +26,9 @@ if( process.env.NODE_ENV === 'dev' ){
 
 process.env.URLDB = urlDB;
 
+/* ================ GOOGLE CLIENT ID ================ */
+process.env.CLIENT_ID = process.env.CLIENT_ID || '394679815856-olc8v9qtljj28fhmd9t2ubtmub5aim6e.apps.googleusercontent.com';
+
 /* ================ BD LOCAL ================ */
 //mongodb://localhost:27017/cafe
 
